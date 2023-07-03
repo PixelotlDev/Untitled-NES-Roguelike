@@ -8,10 +8,6 @@
 .linecont       +               ; Allow line continuations
 .feature        c_comments      /* allow this style of comment */
 
-; after we load the sprites, we know that this one should always point to the player cursor's y and x position respectively, unless something has gone horribly wrong
-.define CursorY $0200
-.define CursorX $0203
-
 .segment "VARS"
 
 .segment "IMG"
