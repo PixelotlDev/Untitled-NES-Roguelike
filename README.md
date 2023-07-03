@@ -22,20 +22,3 @@ On other systems (or if you don't want to run a script from an unknown third par
 
 
 ## Notes
-This build is, in its current and likely final state, almost a full game, albeit a somewhat buggy one. While I've ironed out most of the bugs, so that 90% of the time you'll have a playable experience, you might have to reset a couple of times if a flag randomly disappears or the colour palette screws up.  
-
----
-
-#### Intention
-My intention for this project is mostly as a learning exercise for myself. I wanted to learn an assembly language, and I think the NES is a pretty cool system with a surprising amount of potential, so I wanted to make a cool original game on it. When I began researching, however, I realised how much I still had to learn, so I decided it was worth it to make a simple clone game to build my skills. The culmination of that effort is the game you see before you.
-####
-I'm not sure exactly what I want to make for my next NES project (likely something rhythm-based, or some kind of bullet hell or roguelike), but I do know I'll have a lot of fun making it!
-####
-A secondary intention for this project is using as a finished project on my portfolio, as I have vanishingly few of those to my name (at time of writing). If you're here from [my website](https://www.smallcode.dev), welcome! I hope you like what you see!
-
----
-
-#### Flashing bug
-There's an annoying bug in the game where a few actions - specifically, revealing a large number of tiles and placing flags when there are either a lot already on the field, or the counter for said flags is displaying a high number on any of the digits.  
-####
-I have an idea as to what causes this - something to do with taking too long to do certain tasks, and messing up the NES' render for a frame. The only solution I can find is to go through and optimise my code - if this were a project I cared about, I would bite the bullet and write better code, but as this was more of an experiment than a "real" project, I don't intend on spending my time doing so. If anyone, for whatever reason, has some dying wish to fix it, be my guest to raise an issue proposing a solution or simply fork and commit your own code for review. I'll keep an eye out for any updates
