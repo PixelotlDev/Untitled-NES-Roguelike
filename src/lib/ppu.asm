@@ -1,4 +1,4 @@
-; I BELIEVE I TOOK ALL THE DOCUMENTATION COMMENTS FROM THE YOSHI DOCUMENT
+; ppu control library
 
 ; PPUADDR	$2006	aaaa aaaa	PPU read/write address (two writes: MSB, LSB)
 ;----------￾-------￾----------￾---------------------------------------------'
