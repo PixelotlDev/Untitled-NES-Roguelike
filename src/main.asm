@@ -14,16 +14,19 @@
     .incbin "../assets/tiles/game_tiles.chr"
 
     ; include scene assets
-    .include "../assets/scenes/menu/menu_tiles.asm"
-    .include "../assets/scenes/menu/menu_attribute.asm"
+    .include "../assets/menu/main/tiles.asm"
+    .include "../assets/menu/main/attribute.asm"
+    .include "../assets/scenes/test_level/tiles.asm"
+    .include "../assets/scenes/test_level/attribute.asm"
 
     .include "./define/header.asm"
     .include "./define/palette.asm"
     .include "./define/variables.asm"
 
-    .include "./lib/utils.asm"
     .include "./lib/gamepad.asm"
     .include "./lib/ppu.asm"
+    .include "./lib/utils.asm"
+    .include "./lib/graphics.asm"
 
     .include "./interrupt/irq.asm"              ; not currently using irq code, but it must be defined
     .include "./interrupt/reset.asm"            ; code and macros related to pressing the reset button
@@ -34,6 +37,7 @@
 load_menu:
     lda #$0 ; zero the accumulator so it's empty for future use
     jsr wait_for_vblank
+
     jsr disable_rendering
 
     lda #<menu_tiles
@@ -66,6 +70,26 @@ menu_loop:
     beq menu_loop
 
     ; MENU LOGIC END
+
+load_test_level:
+    lda #$0 ; zero the accumulator so it's empty for future use
+    jsr wait_for_vblank
+
+    jsr disable_rendering
+
+    lda #<test_level_tiles
+    sta scene_tiles_address
+    lda #>test_level_tiles
+    sta scene_tiles_address+1
+    jsr load_initial_scene_tiles ; load menu tiles
+
+    lda #<test_level_attribute
+    sta scene_attribute_address
+    lda #>test_level_attribute
+    sta scene_attribute_address+1
+    jsr load_initial_scene_attribute ; load menu attribute table
+
+    jsr enable_rendering
 
 game_loop:
     lda nmi_ready
