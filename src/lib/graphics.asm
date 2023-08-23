@@ -75,7 +75,25 @@
     rts
 .endproc
 
-
+; load x with desired sprite ID
+; load accumulator with x screen position
+; load y with y screen position
 .proc move_sprite
+    ; save accumulator on the stack
+    pha
 
+    txa
+    asl
+    asl
+    tax
+
+    ; take the x position off of the stack and store
+    pla
+    sta $0203, x
+
+    ; store y pos
+    tya
+    sta $0200, x
+
+    rts
 .endproc

@@ -1,12 +1,11 @@
-; TODO: fix screen flicker bug when evaluating/searching tiles
-;       impliment in-game timer
+; TODO: BIG CHANGE
+;       Player pos format changed to a workable format, the rest of the movement and sprite setting code needs to be redone
 
 ; lots of this code (and some of the comments) isn't mine, mostly because i didn't want to spend half a year learning the 6502 architecture and nes mapping before i could even
 ; start writing a game - i learn better by actually trying to code something :3
 ; The base 'engine' code comes from: https://github.com/battlelinegames/nes-starter-kit
 
 .linecont       +               ; Allow line continuations
-.feature        c_comments      /* allow this style of comment */
 
 .segment "VARS"
 
@@ -27,6 +26,7 @@
     .include "./lib/ppu.asm"
     .include "./lib/utils.asm"
     .include "./lib/graphics.asm"
+    .include "./lib/player.asm"
 
     .include "./interrupt/irq.asm"              ; not currently using irq code, but it must be defined
     .include "./interrupt/reset.asm"            ; code and macros related to pressing the reset button
@@ -94,6 +94,17 @@ load_test_level:
     lda #$0
     sta player_pos+1
 
+    ; TEST PLAYER SPRITE
+    lda #$01 ; sprite ID
+    sta $0205 ; store in sprite memory location
+    lda #%00000001
+    sta $0206
+    lda #$0
+    tax
+    lda #$40
+    tay
+    jsr set_player_pos
+
     jsr enable_rendering
 
 game_loop:
@@ -108,6 +119,20 @@ game_loop:
     jsr check_gamepad
 
     jsr button_logic
+
+    ; TEST MOVEMENT
+    lda #$00
+    tax
+    lda #$7f
+    tay
+    jsr move_player_x
+
+    lda #$01 ; sprite ID
+    tax
+    lda player_pos+2 ; y pos
+    tay
+    lda player_pos ; x pos
+    jsr move_sprite
 
     ; GAME LOGIC END
     
