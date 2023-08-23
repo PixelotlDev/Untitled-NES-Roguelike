@@ -74,3 +74,8 @@
         bne attribute_loop_1
     rts
 .endproc
+
+
+.proc move_sprite
+
+.endproc

@@ -92,7 +92,7 @@ GAMEPAD_REGISTER = $4016
         button_press_check PRESS_RIGHT
 
     ; to find out if this is a newly pressed button, load the last buttons pressed, and
-    ; flipp all the bits with an eor #$ff.  Then you can AND the results with current
+    ; flip all the bits with an eor #$ff.  Then you can AND the results with current
     ; gamepad pressed.  This will give you what wasn't pressed previously, but what is
     ; pressed now.  Then store that value in the gamepad_new_press
     lda gamepad_last_press

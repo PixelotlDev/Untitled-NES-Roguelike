@@ -89,6 +89,11 @@ load_test_level:
     sta scene_attribute_address+1
     jsr load_initial_scene_attribute ; load menu attribute table
 
+    lda #$20
+    sta player_pos
+    lda #$0
+    sta player_pos+1
+
     jsr enable_rendering
 
 game_loop:
