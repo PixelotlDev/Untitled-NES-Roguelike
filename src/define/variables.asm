@@ -36,3 +36,6 @@
                   ; .... ..|+- Sprite update needed
                   ;        +-- Touching floor
     ID: .res 1
+
+.segment "VARS"
+    draw_space: .res 960 ; space for metatiles to become tiles

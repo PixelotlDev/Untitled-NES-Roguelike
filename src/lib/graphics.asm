@@ -2,9 +2,15 @@
 
 .segment "CODE"
 
+.proc load_scene_metatiles
+    ; TODO: turn metatiles into tiles in memory, so that they can be drawn to screen
+
+    rts
+.endproc
+
 ; copies everything from whatever is loaded from scene_data onwards to ppu memory
 ; clobbers x ($00) and y ($c0)
-.proc load_initial_scene_tiles
+.proc load_scene_tiles
     ; bytes 0-255
     ldy #$20
     ldx #$00
@@ -16,45 +22,45 @@
 
     ldy #$0
 
-    load_initial_scene_tiles_loop_1:
+    load_scene_tiles_loop_1:
         lda (scene_tiles_address), y
         sta PPU_DATA
 
         iny
-        bne load_initial_scene_tiles_loop_1
+        bne load_scene_tiles_loop_1
 
     inc scene_tiles_address+1
 
-    load_initial_scene_tiles_loop_2:
+    load_scene_tiles_loop_2:
         lda (scene_tiles_address), y
         sta PPU_DATA
 
         iny
-        bne load_initial_scene_tiles_loop_2
+        bne load_scene_tiles_loop_2
 
     inc scene_tiles_address+1
 
-    load_initial_scene_tiles_loop_3:
+    load_scene_tiles_loop_3:
         lda (scene_tiles_address), y
         sta PPU_DATA
 
         iny
-        bne load_initial_scene_tiles_loop_3
+        bne load_scene_tiles_loop_3
     
     inc scene_tiles_address+1
 
     ; the final loop has a few less bytes to load
-    load_initial_scene_tiles_loop_4:
+    load_scene_tiles_loop_4:
         lda (scene_tiles_address), y
         sta PPU_DATA
 
         iny
         cpy #$c0
-        bne load_initial_scene_tiles_loop_4
+        bne load_scene_tiles_loop_4
     rts
 .endproc
 
-; like load_initial_scene_tiles, but for the attribute table - much shorter, cos there's a lot less data to transfer
+; like load_scene_tiles, but for the attribute table - much shorter, cos there's a lot less data to transfer
 .proc load_initial_scene_attribute
     lda PPU_STATUS        ; PPU_STATUS = $2002
 

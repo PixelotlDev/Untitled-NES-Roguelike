@@ -1,5 +1,6 @@
-; TODO: BIG CHANGE
-;       Player pos format changed to a workable format, the rest of the movement and sprite setting code needs to be redone
+; TODO: Finish implementing metatiles
+;       Finish implementing objects
+;       Remove player as a distinct thing, replacing it with an object referenced by the player controller
 
 ; lots of this code (and some of the comments) isn't mine, mostly because i didn't want to spend half a year learning the 6502 architecture and nes mapping before i could even
 ; start writing a game - i learn better by actually trying to code something :3
@@ -15,7 +16,7 @@
     ; include scene assets
     .include "../assets/menu/main/tiles.asm"
     .include "../assets/menu/main/attribute.asm"
-    .include "../assets/scenes/test_level/tiles.asm"
+    .include "../assets/scenes/test_level/metatiles.asm"
     .include "../assets/scenes/test_level/attribute.asm"
 
     .include "define/header.asm"
@@ -44,7 +45,7 @@ load_menu:
     sta scene_tiles_address
     lda #>menu_tiles
     sta scene_tiles_address+1
-    jsr load_initial_scene_tiles ; load menu tiles
+    jsr load_scene_tiles ; load menu tiles
 
     lda #<menu_attribute
     sta scene_attribute_address
@@ -77,17 +78,17 @@ load_test_level:
 
     jsr disable_rendering
 
-    lda #<test_level_tiles
+    lda #<test_level_metatiles
     sta scene_tiles_address
-    lda #>test_level_tiles
+    lda #>test_level_metatiles
     sta scene_tiles_address+1
-    jsr load_initial_scene_tiles ; load menu tiles
+    jsr load_scene_tiles ; load test level tiles
 
     lda #<test_level_attribute
     sta scene_attribute_address
     lda #>test_level_attribute
     sta scene_attribute_address+1
-    jsr load_initial_scene_attribute ; load menu attribute table
+    jsr load_initial_scene_attribute ; load test level attribute table
 
     ; TEST PLAYER SPRITE
     lda #$01 ; sprite ID
