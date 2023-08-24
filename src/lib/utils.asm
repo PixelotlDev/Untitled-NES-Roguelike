@@ -21,6 +21,15 @@
     		bne clear_ram_loop
 .endmacro
 
+; store addr, shift right to fill the carry with what should be wrapped around, load player_pos_real again, then rotate through, giving us an 8-bit rotate
+; load addr into accumulator on first rotate
+.macro rotate_memory_right addr
+    sta addr
+    lsr
+    lda addr
+    ror
+.endmacro
+
 ; MACROS END
 
 ; PROCEDURES START

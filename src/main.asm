@@ -121,17 +121,18 @@ game_loop:
     jsr button_logic
 
     ; TEST MOVEMENT
-    lda #$00
+    lda #$f0 ; -1pps
     tax
-    lda #$7f
+    lda #$f0 ; -1pps
     tay
-    jsr move_player_x
+    jsr move_player
 
+    ; TEST SPRITE UPDATE
     lda #$01 ; sprite ID
     tax
-    lda player_pos+2 ; y pos
+    lda player_pos_real+1 ; y pos
     tay
-    lda player_pos ; x pos
+    lda player_pos_real ; x pos
     jsr move_sprite
 
     ; GAME LOGIC END
