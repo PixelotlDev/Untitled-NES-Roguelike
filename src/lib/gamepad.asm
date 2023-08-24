@@ -114,3 +114,97 @@ GAMEPAD_REGISTER = $4016
     sta gamepad_release  ; a 1 flag in a button position means a button was just released
     rts
 .endproc
+
+.proc button_logic
+    ; LEFT
+        lda gamepad_new_press
+        and #%01000000      ; if left button is being pressed...
+        bne left_press      ; do stuff at the left_press label
+    left_press_done:
+        lda gamepad_press
+        and #%01000000      ; if left button is being pressed...
+        bne left_held      ; do stuff at the left_press label
+    left_held_done:
+    ; RIGHT
+        lda gamepad_new_press
+        and #%10000000      ; above, but right
+        bne right_press
+    right_press_done:
+        lda gamepad_press
+        and #%10000000      ; if left button is being pressed...
+        bne right_held      ; do stuff at the left_press label
+    right_held_done:
+    ; UP
+        lda gamepad_new_press
+        and #%00010000      ; above, but up
+        bne up_press
+    up_press_done:
+        lda gamepad_press
+        and #%00010000      ; if left button is being pressed...
+        bne up_held      ; do stuff at the left_press label
+    up_held_done:
+    ; DOWN
+        lda gamepad_new_press
+        and #%00100000      ; above, but down
+        bne down_press
+    down_press_done:
+    ; A
+        lda gamepad_new_press
+        and #%00000001      ; above, but a
+        bne a_press
+    a_press_done:
+    ; B
+        lda gamepad_new_press
+        and #%00000010      ; above, but b
+        bne b_press
+    b_press_done:
+        rts                 ; if nothing's being pressed, go back to the program
+
+    ; LEFT
+    left_press:
+        ; button logic goes here
+        jmp left_press_done
+
+    left_held:
+        change_player_velocity #$f4, #$00
+        jmp left_held_done
+
+    ; RIGHT
+    right_press:
+        ; button logic goes here
+        jmp right_press_done
+
+    right_held:
+        change_player_velocity #$0c, #$00
+        jmp right_held_done
+
+    ; UP
+    up_press:
+        ; button logic goes here
+
+    up_held:
+        ; button logic goes here
+        lda player_flags
+        and #%00000010
+        beq @no_jump
+            set_player_velocity_y #$b8
+        @no_jump:
+        jmp up_held_done
+
+    ; DOWN
+    down_press:
+        ; button logic goes here
+        set_player_velocity_x #$00
+        set_player_velocity_y #$00
+        jmp down_press_done
+
+    ; A
+    a_press:
+        ; button logic goes here
+        jmp a_press_done
+
+    ; B
+    b_press:
+        ; button logic goes here
+        jmp b_press_done
+.endproc

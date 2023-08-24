@@ -18,19 +18,19 @@
     .include "../assets/scenes/test_level/tiles.asm"
     .include "../assets/scenes/test_level/attribute.asm"
 
-    .include "./define/header.asm"
-    .include "./define/palette.asm"
-    .include "./define/variables.asm"
+    .include "define/header.asm"
+    .include "define/palette.asm"
+    .include "define/variables.asm"
 
-    .include "./lib/gamepad.asm"
-    .include "./lib/ppu.asm"
-    .include "./lib/utils.asm"
-    .include "./lib/graphics.asm"
-    .include "./lib/player.asm"
+    .include "lib/utils.asm"
+    .include "lib/player.asm"
+    .include "lib/gamepad.asm"
+    .include "lib/ppu.asm"
+    .include "lib/graphics.asm"
 
-    .include "./interrupt/irq.asm"              ; not currently using irq code, but it must be defined
-    .include "./interrupt/reset.asm"            ; code and macros related to pressing the reset button
-    .include "./interrupt/nmi.asm"
+    .include "interrupt/irq.asm"              ; not currently using irq code, but it must be defined
+    .include "interrupt/reset.asm"            ; code and macros related to pressing the reset button
+    .include "interrupt/nmi.asm"
 
 .segment "CODE"
 
