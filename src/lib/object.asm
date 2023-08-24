@@ -1,4 +1,4 @@
-; player functions library
+; object functions library
 
 .segment "CODE"
 
