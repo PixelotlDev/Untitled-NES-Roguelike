@@ -7,7 +7,7 @@
 
 .linecont       +               ; Allow line continuations
 
-.segment "VARS"
+.segment "SAVE"
 
 .segment "IMG"
     .incbin "../assets/tiles/game_tiles.chr"
