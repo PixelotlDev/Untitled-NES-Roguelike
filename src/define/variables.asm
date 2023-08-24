@@ -19,3 +19,20 @@
     player_flags: .res 1 ; 7654 3210
                          ; .... ..|+- Sprite update needed
                          ;        +-- Touching floor
+    
+    object_array: .res 0
+    pos: .res 4 ; x1, x2, y1, y2
+                ;   Byte 1  |  Byte 2
+                ; 7654 3210 | 7654 3210
+                ; .... ||||   |||| ++++- Subpixels
+                ;      ++++---++++------ Pixels
+    last_pos: .res 4 ; same as above
+    velocity: .res 2 ; x, y
+                     ; 7654 3210
+                     ; |||| ++++- Subpixels
+                     ; |+++------ Pixels
+                     ; +--------- Sign (+/-)
+    flags: .res 1 ; 7654 3210
+                  ; .... ..|+- Sprite update needed
+                  ;        +-- Touching floor
+    ID: .res 1
