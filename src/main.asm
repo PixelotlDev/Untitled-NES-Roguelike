@@ -89,21 +89,23 @@ load_test_level:
     sta scene_attribute_address+1
     jsr load_initial_scene_attribute ; load menu attribute table
 
-    lda #$20
-    sta player_pos
-    lda #$0
-    sta player_pos+1
-
     ; TEST PLAYER SPRITE
     lda #$01 ; sprite ID
     sta $0205 ; store in sprite memory location
     lda #%00000001
     sta $0206
-    lda #$0
+    lda #$20
     tax
+    jsr set_player_pos_x
     lda #$40
     tay
-    jsr set_player_pos
+    jsr set_player_pos_y
+
+    set_player_velocity_x #$00
+    set_player_velocity_y #$00
+    lda #$00
+    sta player_last_velocity
+    sta player_last_velocity+1
 
     jsr enable_rendering
 
@@ -120,20 +122,76 @@ game_loop:
 
     jsr button_logic
 
+    ; TEST VELOCITY
+    change_player_velocity #$00, #$03
+
+    ; DRAG
+    lda player_velocity
+    beq @drag_end
+    and #%10000000
+    bne @velocity_negative
+        lda player_velocity
+        sec
+        sbc #$04
+        bcs :+
+            ; if subtracting 4 put us past 0
+            lda #$0
+        :
+
+        jmp @drag_end
+
+    @velocity_negative:
+        lda player_velocity
+        clc
+        adc #$04
+        bcc :+
+            ; if adding 4 put us past 0
+            lda #$0
+        :
+
+    @drag_end:
+    sta player_velocity
+
+    jsr cap_player_velocity
+
     ; TEST MOVEMENT
-    lda #$f0 ; -1pps
+    lda player_velocity ; x velocity
     tax
-    lda #$f0 ; -1pps
+    lda player_velocity+1 ; y velocity
     tay
     jsr move_player
 
+    jsr set_player_pos_real
+
+    ; TEST COLLISION
+    clear_flags player_flags, #%00000010 ; clear on floor flag
+    lda player_pos_real+1
+    sec
+    sbc #$c5
+    bcc :+
+        ldy #$c5
+        jsr set_player_pos_y
+        set_player_velocity_y #$0
+        set_flags player_flags, #%00000010 ; set on floor flag
+    :
+
     ; TEST SPRITE UPDATE
+    jsr set_player_pos_real
+
     lda #$01 ; sprite ID
     tax
     lda player_pos_real+1 ; y pos
     tay
     lda player_pos_real ; x pos
     jsr move_sprite
+
+    clear_flags player_flags, #%00000001 ; clear draw sprite flag
+
+    ; CLEANUP
+    lda player_velocity
+    sta player_last_velocity
+    lda player_velocity+1
+    sta player_last_velocity+1
 
     ; GAME LOGIC END
     
