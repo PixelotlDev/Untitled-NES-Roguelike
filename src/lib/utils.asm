@@ -30,6 +30,19 @@
     ror
 .endmacro
 
+.macro set_flags addr, flags
+	lda addr
+	ora flags
+	sta addr
+.endmacro
+
+.macro clear_flags addr, flags
+	lda flags
+	eor #%11111111 ; invert flags
+	and addr ; and with addr flags, turning off any flags that were selected and leaving other flags untouched
+	sta addr
+.endmacro
+
 ; MACROS END
 
 ; PROCEDURES START
