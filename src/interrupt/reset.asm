@@ -60,4 +60,4 @@ reset:
     lda #$01
     sta nmi_ready
 
-    jmp load_menu
+    jmp initialize_main

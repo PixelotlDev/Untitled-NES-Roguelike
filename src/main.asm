@@ -18,6 +18,7 @@
     .include "../assets/menu/main/attribute.asm"
     .include "../assets/scenes/test_level/metatiles.asm"
     .include "../assets/scenes/test_level/attribute.asm"
+    .include "../assets/tiles/metatiles/metatiles.asm"
 
     .include "define/header.asm"
     .include "define/palette.asm"
@@ -35,8 +36,14 @@
 
 .segment "CODE"
 
+initialize_main:
+    lda #<display_buffer
+    sta display_buffer_address
+    lda #>display_buffer
+    sta display_buffer_address+1
+
 load_menu:
-    lda #$0 ; zero the accumulator so it's empty for future use
+    lda #$0
     jsr wait_for_vblank
 
     jsr disable_rendering
@@ -78,10 +85,13 @@ load_test_level:
 
     jsr disable_rendering
 
+    ; METATILES TEST
     lda #<test_level_metatiles
-    sta scene_tiles_address
+    sta scene_metatiles_address
     lda #>test_level_metatiles
-    sta scene_tiles_address+1
+    sta scene_metatiles_address+1
+    jsr load_scene_metatiles ; load test level tiles
+
     jsr load_scene_tiles ; load test level tiles
 
     lda #<test_level_attribute
